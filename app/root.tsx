@@ -5,6 +5,7 @@ import {
   Outlet,
   useCatch,
   Meta,
+  Scripts,
 } from "remix";
 
 import globalStylesUrl from "./styles/global.css";
@@ -61,6 +62,7 @@ function Document({
       </head>
       <body>
         {children}
+        <Scripts />
         <LiveReload />
       </body>
     </html>
@@ -84,7 +86,7 @@ export function CatchBoundary() {
     >
       <div className="error-container">
         <h1>
-          Opps! {caught.status} {caught.statusText}
+          {caught.status} {caught.statusText}
         </h1>
       </div>
     </Document>
@@ -92,6 +94,8 @@ export function CatchBoundary() {
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+
   return (
     <Document title="Uh-oh!">
       <div className="error-container">
