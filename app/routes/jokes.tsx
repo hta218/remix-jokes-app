@@ -1,18 +1,20 @@
-import { Joke } from "@prisma/client";
-import { LinksFunction, LoaderFunction, useLoaderData } from "remix";
-import { Outlet, Link } from "remix";
-
+import { Link, LinksFunction, LoaderFunction, Outlet, useLoaderData } from "remix";
 import stylesUrl from "~/styles/jokes.css";
 import { db } from "~/utils/db.server";
+
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
 };
 
-type LoaderData = { jokes: Array<Joke> };
+type LoaderData = { jokes: Array<{ id: string; name: string }> };
 export const loader: LoaderFunction = async () => {
   const data: LoaderData = {
-    jokes: await db.joke.findMany(),
+    jokes: await db.joke.findMany({
+      take: 3,
+      select: { id: true, name: true },
+      orderBy: { createdAt: "desc" },
+    }),
   };
   return data;
 };
