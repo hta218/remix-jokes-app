@@ -1,10 +1,9 @@
-import type { User } from "@prisma/client";
 import type { LinksFunction, LoaderFunction } from "remix";
 import { Link, Outlet, useLoaderData } from "remix";
-
+import stylesUrl from "~/styles/jokes.css";
 import { db } from "~/utils/db.server";
 import { getUser } from "~/utils/session.server";
-import stylesUrl from "~/styles/jokes.css";
+
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
@@ -34,7 +33,7 @@ export const loader: LoaderFunction = async ({
 
 export default function JokesRoute() {
   const data = useLoaderData<LoaderData>();
-  console.log("=========> - data", data)
+  if (!data) return 'No data huh?'
 
   return (
     <div className="jokes-layout">
