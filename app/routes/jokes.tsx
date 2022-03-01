@@ -4,7 +4,6 @@ import stylesUrl from "~/styles/jokes.css";
 import { db } from "~/utils/db.server";
 import { getUser } from "~/utils/session.server";
 
-
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
 };
@@ -14,9 +13,7 @@ type LoaderData = {
   jokeListItems: Array<{ id: string; name: string }>;
 };
 
-export const loader: LoaderFunction = async ({
-  request,
-}) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const jokeListItems = await db.joke.findMany({
     take: 5,
     orderBy: { createdAt: "desc" },
@@ -33,18 +30,14 @@ export const loader: LoaderFunction = async ({
 
 export default function JokesRoute() {
   const data = useLoaderData<LoaderData>();
-  if (!data) return 'No data huh?'
+  if (!data) return "No data huh?";
 
   return (
     <div className="jokes-layout">
       <header className="jokes-header">
         <div className="container">
           <h1 className="home-link">
-            <Link
-              to="/"
-              title="Remix Jokes"
-              aria-label="Remix Jokes"
-            >
+            <Link to="/" title="Remix Jokes" aria-label="Remix Jokes">
               <span className="logo">🤪</span>
               <span className="logo-medium">J🤪KES</span>
             </Link>
@@ -71,7 +64,7 @@ export default function JokesRoute() {
             <ul>
               {data.jokeListItems.map((joke) => (
                 <li key={joke.id}>
-                  <Link to={joke.id}>{joke.name}</Link>
+                  <Link prefetch="intent" to={joke.id}>{joke.name}</Link>
                 </li>
               ))}
             </ul>
