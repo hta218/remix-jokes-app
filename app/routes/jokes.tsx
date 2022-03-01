@@ -34,6 +34,7 @@ export const loader: LoaderFunction = async ({
 
 export default function JokesRoute() {
   const data = useLoaderData<LoaderData>();
+  console.log("=========> - data", data)
 
   return (
     <div className="jokes-layout">
